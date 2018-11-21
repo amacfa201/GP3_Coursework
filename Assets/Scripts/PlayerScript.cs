@@ -8,6 +8,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
 
     protected float speed;
+    public float sens;
 
     public Rigidbody rigid;
 
@@ -25,7 +26,7 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         TerrainWrapping();
-        
+        transform.Rotate(new Vector3(transform.rotation.x, Input.GetAxis("Mouse X"), 0) * Time.deltaTime * sens);
 
     }
 
@@ -45,7 +46,7 @@ public class PlayerScript : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
         Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rigid.AddForce(movement * speed);
+        rigid.AddRelativeForce(movement * speed);
 
         //Jump code
         //if (Input.GetKey(KeyCode.Space))
