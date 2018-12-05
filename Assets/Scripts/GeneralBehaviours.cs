@@ -7,11 +7,14 @@ public class GeneralBehaviours : MonoBehaviour {
     [SerializeField]
 
     protected float speed;
-   
+    protected float energy = 0.25f;
 
     public Rigidbody rigid;
 
     public GameObject ground;
+
+    Renderer rend;
+
 
 
 
@@ -20,13 +23,14 @@ public class GeneralBehaviours : MonoBehaviour {
     {
         rigid = GetComponent<Rigidbody>();
         ground = GameObject.FindGameObjectWithTag("Ground");
+        rend = GetComponent<Renderer>();
     }
 
 
     void Update()
     {
         TerrainWrapping();
-
+        UpdateColour();
     }
 
     
@@ -67,6 +71,14 @@ public class GeneralBehaviours : MonoBehaviour {
         //Obstacles - Deletes Obstacle
         if (col.gameObject.name.StartsWith("Mushroom"))
         {
+            if (col.gameObject.GetComponent<Mushroom>().isHealthy())
+            {
+                energy += 0.1f;
+            }
+            else
+            {
+                energy -= 0.1f;
+            }
             Destroy(col.gameObject);
         }
     }
@@ -84,5 +96,11 @@ public class GeneralBehaviours : MonoBehaviour {
         {
             transform.position = updateZ(-transform.position.z);
         }
+    }
+
+    void UpdateColour()
+    {
+        
+        rend.material.color = Color.Lerp(Color.white, Color.black, energy);
     }
 }

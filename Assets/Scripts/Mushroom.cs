@@ -8,12 +8,14 @@ public class Mushroom : MonoBehaviour {
     public float maxDeathAge;
     public float deathAge;
     public float halfLife;
+    float r;
 
-    public bool healthy = true;
+    bool healthy = true;
     public bool consumable = true;
 
     public Rigidbody rigid;
 
+    Renderer rend;
 
 
 	// Use this for initialization
@@ -21,7 +23,9 @@ public class Mushroom : MonoBehaviour {
         deathAge = Random.Range(minDeathAge, maxDeathAge);
         halfLife = deathAge / 2;
         rigid = GetComponent<Rigidbody>();
-	}
+        rend = GetComponent<Renderer>();
+        float r = Random.Range(0.5f, 1f);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -30,6 +34,12 @@ public class Mushroom : MonoBehaviour {
         {
             Dead();
         }
+        if (age >= halfLife)
+        {
+            healthy = false;
+            rend.material.color = Color.Lerp(Color.white, Color.black, 1);
+        }
+        Rotate();
 	}
 
 
@@ -37,5 +47,17 @@ public class Mushroom : MonoBehaviour {
     {
         rigid.AddForce(Vector3.up * 25);
         Destroy(this.gameObject, 5f);
+    }
+
+    public bool isHealthy()
+    {
+        return healthy;
+    }
+
+    void Rotate()
+    {
+        
+        float rotFactor = age += r;
+        transform.Rotate(new Vector3(0f, Mathf.Sin(rotFactor), 0f) * Time.deltaTime);
     }
 }
