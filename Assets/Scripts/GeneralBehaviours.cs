@@ -92,7 +92,7 @@ public class GeneralBehaviours : MonoBehaviour {
             transform.position = updateX(-transform.position.x);
         }
 
-        if (transform.position.z > getZBounds() || transform.position.z < -getZBounds())
+        if (transform.position.z > getXBounds() || transform.position.z < -getXBounds())
         {
             transform.position = updateZ(-transform.position.z);
         }
@@ -100,7 +100,6 @@ public class GeneralBehaviours : MonoBehaviour {
 
     void UpdateColour()
     {
-        
         rend.material.color = Color.Lerp(Color.white, Color.black, energy);
     }
 }
